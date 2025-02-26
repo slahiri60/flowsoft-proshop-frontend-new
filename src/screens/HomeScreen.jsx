@@ -1,8 +1,20 @@
+import { useState, useEffect } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import Product from '../components/Product';
-import products from '../products';
+import axios from 'axios';
 
 const HomeScreen = () => {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get(`https://flowsoft-proshop-backend-new-845cfe82f004.herokuapp.com/api/products`);
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, []);
+
   return (
     <>
       <h1>Latest Products</h1>

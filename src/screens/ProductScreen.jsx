@@ -1,12 +1,36 @@
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { Row, Col, Image, ListGroup, Card, Button } from 'react-bootstrap';
 import Rating from '../components/Rating';
-import products from '../products';
+import axios from 'axios';
 
 const ProductScreen = () => {
   const { id: productId } = useParams();
-  const product = products.find((p) => p._id === productId);
+  const [product, setProduct] = useState({});
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`https://flowsoft-proshop-backend-new-845cfe82f004.herokuapp.com/api/products/${productId}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json(); // Parse the JSON response
+      })
+      .then(data => {
+        // Use the data
+        console.log(data);
+      })
+      .catch(error => {
+        // Handle errors
+        console.error('There was a problem with the fetch operation:', error);
+      });;
+      setProduct(data);
+    };
+
+    fetchProduct();
+  }, [productId]);
 
   return (
     <>
