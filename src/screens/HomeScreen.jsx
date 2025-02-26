@@ -8,7 +8,7 @@ const HomeScreen = () => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-      const { data } = await axios.get(`https://flowsoft-proshop-backend-new-845cfe82f004.herokuapp.com/api/products`);
+      const { data } = await axios.get(`${process.env.REACT_APP_API}/api/products`);
       setProducts(data);
     };
 
